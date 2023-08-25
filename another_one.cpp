@@ -1,10 +1,10 @@
 #include<iostream>
 using namespace std;
 
-int static MAX_NUMBER = 1000;
+int const MAX_NUMBER = 1000;
 int specialization[MAX_NUMBER];
 string patient[MAX_NUMBER];
-int status[MAX_NUMBER];
+bool status[MAX_NUMBER];
 int added = 0;
 
 // bool check_specialization(int s){
@@ -15,11 +15,60 @@ int added = 0;
 // }
 
 void add_patient(){
+    cout<<"enter specialization, name, status :";
+    int s;
+    cin>>s;
+    if (s >= 1 && s <= 20)
+    {
+        specialization[added] = s;
+        cin>>patient[added];
+        cin>>status[added];
+        added++;
+    } else
+    {
+        cout<<"we don't have this specialization ";
+    }
     
 }
 
-void print_patients(){
+int count_paitents(int p)
+{
+    int counter = 0;
+    for (int i = 0; i < added; i++)
+    {
+        if(specialization[i] == p)
+            counter++;
+    }
+    
+    return counter;
+}
 
+void print_patients(){
+    
+    for (int i = 1; i < 20; i++)
+    {
+        for (int k = 0; k < added; k++)
+        {
+            if (specialization[k] == i)
+            {
+                cout<<"There are "<<count_paitents(specialization[k])<<" patients in specialization "<<i<<"\n";
+                break;
+            }
+            
+        }
+        
+        for (int j = 0; j < added; j++)
+        {
+            if (specialization[j] == i)
+            {
+                cout<<patient[j]<<" ";
+                cout<<status[j]<<"\n";
+            }
+            
+        }
+        
+    }
+    
 }
 
 void next_patient(){
