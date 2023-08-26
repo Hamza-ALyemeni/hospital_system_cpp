@@ -4,8 +4,9 @@ using namespace std;
 int const MAX_NUMBER = 1000;
 int specialization[MAX_NUMBER];
 string patient[MAX_NUMBER];
-bool status[MAX_NUMBER];
+int status[MAX_NUMBER];
 int added = 0;
+
 
 // bool check_specialization(int s){
 //     if(specialization[s][4])
@@ -14,22 +15,6 @@ int added = 0;
 //     }
 // }
 
-void add_patient(){
-    cout<<"enter specialization, name, status :";
-    int s;
-    cin>>s;
-    if (s >= 1 && s <= 20)
-    {
-        specialization[added] = s;
-        cin>>patient[added];
-        cin>>status[added];
-        added++;
-    } else
-    {
-        cout<<"we don't have this specialization ";
-    }
-    
-}
 
 int count_paitents(int p)
 {
@@ -43,11 +28,39 @@ int count_paitents(int p)
     return counter;
 }
 
+
+void add_patient(){
+    cout<<"enter specialization, name, status :";
+    int s;
+    cin>>s;
+    if (s >= 1 && s <= 20)
+    {
+        if (count_paitents(s) == 5)
+        {
+             cout<<"sorry you can not add patients to this specialization ";
+        }
+        else
+        {
+            specialization[added] = s;
+            cin>>patient[added];
+            cin>>status[added];
+            added++;
+        }
+        
+    } else
+    {
+        cout<<"we don't have this specialization ";
+    }
+    
+}
+
+
 void print_patients(){
+    
     
     for (int i = 1; i < 20; i++)
     {
-        for (int k = 0; k < added; k++)
+        for (int k = added; k >= 0; k--)
         {
             if (specialization[k] == i)
             {
@@ -57,9 +70,19 @@ void print_patients(){
             
         }
         
+        for (int j = added; j >= 0; j--)
+        {
+            if (specialization[j] == i && status[j] == 1)
+            {
+                cout<<patient[j]<<" ";
+                cout<<status[j]<<"\n";
+            }
+            
+        }
+
         for (int j = 0; j < added; j++)
         {
-            if (specialization[j] == i)
+            if (specialization[j] == i && status[j] == 0)
             {
                 cout<<patient[j]<<" ";
                 cout<<status[j]<<"\n";
@@ -72,7 +95,37 @@ void print_patients(){
 }
 
 void next_patient(){
+    int n;
+    bool found = false;
+    cin>>n;
+    for (int i = added ;i >= 0 ; i--)
+    {
+        if(specialization[i] == n && status[i] == 1){
+            cout<<patient[i]<<" please go with Dr. ";
+            found = true;
+            specialization[i] = -1;
+            break;
+        }
+    }
 
+    if (!found)
+    {
+        for (int i = 0 ;i <= added ; i++ )
+        {
+            if(specialization[i] == n && status[i] == 0){
+                cout<<patient[i]<<" please go with Dr. ";
+                found = true;
+                specialization[i] = -1;
+                break;
+            }
+        }
+    }
+
+    if (!found)
+    {
+        cout<<" there is not patients in these specialization take a rest Dr :) ";
+    }
+            
 }
 
 int interface()
